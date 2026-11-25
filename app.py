@@ -92,7 +92,11 @@ def create_app(config=None):
             limpio["nombre"] = nombre
 
         if "descripcion" in datos or not parcial:
-            descripcion = datos["descripcion"].strip()
+            descripcion = datos.get("descripcion") or ""
+            if not isinstance(descripcion, str):
+                errores.append("La descripcion debe ser texto.")
+                descripcion = ""
+            descripcion = descripcion.strip()
             if len(descripcion) > MAX_DESCRIPCION:
                 errores.append(f"La descripcion no debe superar {MAX_DESCRIPCION} caracteres.")
             limpio["descripcion"] = descripcion
