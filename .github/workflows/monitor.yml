@@ -1,0 +1,31 @@
+name: Monitoreo
+
+# Fase 7: revisa cada 6 horas que la aplicacion publicada responda.
+# Configurar la variable del repositorio APP_URL (Settings > Secrets and
+# variables > Actions > Variables) con la URL publica, p. ej.
+# https://taskmanager-devops.onrender.com
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  salud:
+    runs-on: ubuntu-latest
+    if: ${{ vars.APP_URL != '' }}
+    steps:
+      - name: Verificar disponibilidad y tiempo de respuesta
+        run: |
+          URL="${{ vars.APP_URL }}"
+          # Render (plan gratis) puede tardar ~50 s en despertar
+          for i in 1 2 3; do
+            CODE=$(curl -s -o salud.json -w "%{http_code} %{time_total}" --max-time 90 "$URL/health") && break
+            sleep 10
+          done
+          echo "Respuesta: $CODE"
+          cat salud.json || true
+          echo "### Monitoreo $(date -u '+%Y-%m-%d %H:%M UTC')" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Codigo HTTP y tiempo (s): \`$CODE\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Respuesta: \`$(cat salud.json)\`" >> "$GITHUB_STEP_SUMMARY"
+          case "$CODE" in 200*) exit 0 ;; *) echo "La aplicacion no responde correctamente"; exit 1 ;; esac
