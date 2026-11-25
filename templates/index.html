@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskManager | TechSolutions</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">✓</span>
+      <div>
+        <h1>TaskManager</h1>
+        <p>TechSolutions · Gestión de tareas</p>
+      </div>
+    </div>
+    <span class="version">v{{ version }}</span>
+  </header>
+
+  <main class="layout">
+    <!-- RF01 / RF06: Registrar tarea con prioridad -->
+    <section class="panel" aria-labelledby="titulo-form">
+      <h2 id="titulo-form">Nueva tarea</h2>
+      <form id="form-tarea" novalidate>
+        <label for="nombre">Nombre <span class="req">*</span></label>
+        <input id="nombre" name="nombre" type="text" maxlength="100" placeholder="Ej. Elaborar documentación">
+        <small class="error-campo" id="error-nombre"></small>
+
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" name="descripcion" rows="3" maxlength="500" placeholder="Detalles de la actividad"></textarea>
+
+        <label for="responsable">Responsable</label>
+        <input id="responsable" name="responsable" type="text" maxlength="100" placeholder="Ej. Ana López">
+
+        <div class="fila">
+          <div>
+            <label for="prioridad">Prioridad</label>
+            <select id="prioridad" name="prioridad">
+              {% for p in prioridades %}<option value="{{ p }}" {% if p == 'Media' %}selected{% endif %}>{{ p }}</option>{% endfor %}
+            </select>
+          </div>
+          <div>
+            <label for="estado">Estado</label>
+            <select id="estado" name="estado">
+              {% for e in estados %}<option value="{{ e }}">{{ e }}</option>{% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn primario" id="btn-guardar">Guardar tarea</button>
+      </form>
+    </section>
+
+    <!-- RF02: Consultar tareas -->
+    <section class="panel lista" aria-labelledby="titulo-lista">
+      <div class="lista-header">
+        <h2 id="titulo-lista">Tareas</h2>
+        <div class="filtros">
+          <select id="filtro-estado" aria-label="Filtrar por estado">
+            <option value="">Todos los estados</option>
+            {% for e in estados %}<option value="{{ e }}">{{ e }}</option>{% endfor %}
+          </select>
+          <select id="filtro-prioridad" aria-label="Filtrar por prioridad">
+            <option value="">Todas las prioridades</option>
+            {% for p in prioridades %}<option value="{{ p }}">{{ p }}</option>{% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="resumen" id="resumen">
+        <div><strong id="r-total">0</strong><span>Total</span></div>
+        <div class="pendiente"><strong id="r-pendiente">0</strong><span>Pendientes</span></div>
+        <div class="proceso"><strong id="r-proceso">0</strong><span>En proceso</span></div>
+        <div class="terminada"><strong id="r-terminada">0</strong><span>Terminadas</span></div>
+      </div>
+
+      <ul id="lista-tareas" class="tareas"></ul>
+      <p id="vacio" class="vacio" hidden>No hay tareas registradas.</p>
+    </section>
+  </main>
+
+  <!-- RF03: Editar tarea -->
+  <dialog id="dialogo-editar">
+    <form id="form-editar" method="dialog" novalidate>
+      <h2>Editar tarea</h2>
+      <input type="hidden" id="e-id">
+      <label for="e-nombre">Nombre <span class="req">*</span></label>
+      <input id="e-nombre" type="text" maxlength="100">
+      <small class="error-campo" id="error-e-nombre"></small>
+      <label for="e-descripcion">Descripción</label>
+      <textarea id="e-descripcion" rows="3" maxlength="500"></textarea>
+      <label for="e-responsable">Responsable</label>
+      <input id="e-responsable" type="text" maxlength="100">
+      <div class="fila">
+        <div>
+          <label for="e-prioridad">Prioridad</label>
+          <select id="e-prioridad">
+            {% for p in prioridades %}<option value="{{ p }}">{{ p }}</option>{% endfor %}
+          </select>
+        </div>
+        <div>
+          <label for="e-estado">Estado</label>
+          <select id="e-estado">
+            {% for e in estados %}<option value="{{ e }}">{{ e }}</option>{% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="acciones">
+        <button type="button" class="btn" id="btn-cancelar">Cancelar</button>
+        <button type="submit" class="btn primario">Guardar cambios</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    window.ESTADOS = {{ estados | list | tojson }};
+  </script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
