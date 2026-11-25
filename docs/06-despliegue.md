@@ -25,19 +25,21 @@ Pasos realizados:
 3. Render detecta `render.yaml` y aplica los comandos de instalación e inicio.
 4. Seleccionar **Deploy** y esperar a que el estado sea **Live**.
 
+Primer despliegue: 25/11/2026 02:01–02:02 (CST), commit `06f8198` (merge del PR #31), duración 1 min 2 s, resultado **Deploy succeeded / Live**. Cada merge posterior a `main` se despliega automáticamente.
+
 ## 6.3 Verificación de la aplicación publicada
 
-URL pública: `https://taskmanager-devops.onrender.com` *(actualizar)*
+URL pública: **https://taskmanager-devops-c3h2.onrender.com**
 
 | Verificación | Resultado |
 |---|---|
-| La URL es accesible | ☐ |
-| La página principal carga correctamente | ☐ |
-| Se pueden registrar tareas | ☐ |
-| Las tareas se pueden editar | ☐ |
-| Las tareas se pueden eliminar | ☐ |
-| Los estados se actualizan correctamente | ☐ |
-| `/health` responde `{"status": "ok"}` | ☐ |
+| La URL es accesible | ✅ |
+| La página principal carga correctamente | ✅ |
+| Se pueden registrar tareas | ✅ |
+| Las tareas se pueden editar | ✅ |
+| Las tareas se pueden eliminar | ✅ |
+| Los estados se actualizan correctamente | ✅ |
+| `/health` responde `{"status": "ok"}` | ✅ |
 
 ## 6.4 Consideración conocida
 

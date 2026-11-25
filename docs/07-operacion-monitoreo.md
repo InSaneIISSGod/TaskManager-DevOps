@@ -16,15 +16,18 @@ Configuración: en GitHub → *Settings → Secrets and variables → Actions �
 
 | Fecha y hora | Disponible | Código HTTP | Tiempo de respuesta | Total tareas | Observaciones |
 |---|---|---|---|---|---|
-| 25/11/2026 __:__ | ☐ Sí ☐ No | | s | | Primera petición (arranque en frío) |
-| 25/11/2026 __:__ | ☐ Sí ☐ No | | s | | |
-| 26/11/2026 __:__ | ☐ Sí ☐ No | | s | | Antes de la revisión presencial |
+| 25/11/2026 02:05 | ✅ Sí | 200 | 0.35 s | 0 | Primera revisión, recién desplegado (uptime 129 s) |
+| 25/11/2026 02:12 | ✅ Sí | 200 | BD 0.45 ms | 3 | Revisión manual de `/health` tras las pruebas funcionales |
+| 25/11/2026 02:14 | ✅ Sí | 200 | 0.32 s | 3 | Workflow **Monitoreo #1** en GitHub Actions |
+| 25/11/2026 02:20 | ✅ Sí | 200 | 0.58 s | 3 | Revisión manual (uptime 1034 s, BD 1.29 ms) |
+
+Horas en tiempo del centro de México (CST). A partir de aquí el workflow `monitor.yml` registra una revisión cada 6 horas en la pestaña **Actions**.
 
 ## 7.3 Registro de incidencias
 
 Las incidencias se documentan en GitHub Issues con la plantilla **Incidencia en producción**.
 
-### INC-01: Las tareas registradas desaparecen después de un reinicio del servicio
+### INC-01 (Issue #32): Las tareas registradas desaparecen después de un reinicio del servicio
 - **Fecha de detección:** 25/11/2026
 - **Funcionalidad afectada:** Consultar tareas (RF02) / almacenamiento.
 - **Descripción del problema:** Tras un nuevo despliegue en Render, el listado aparece vacío.
@@ -33,7 +36,7 @@ Las incidencias se documentan en GitHub Issues con la plantilla **Incidencia en 
 - **Causa:** el plan gratuito de Render usa disco efímero; el archivo SQLite se recrea en cada despliegue.
 - **Solución aplicada:** se documentó la limitación y se planificó migrar a PostgreSQL administrado (Issue #25, versión 1.1).
 
-### INC-02: La primera carga tarda cerca de un minuto
+### INC-02 (Issue #33): La primera carga tarda cerca de un minuto
 - **Fecha de detección:** 25/11/2026
 - **Funcionalidad afectada:** Disponibilidad.
 - **Descripción del problema:** después de un periodo sin uso, la primera petición tarda ~50 s.
