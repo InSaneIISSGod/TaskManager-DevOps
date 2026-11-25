@@ -4,8 +4,9 @@ Sistema web para la gestión de tareas de **TechSolutions**, desarrollado aplica
 
 ![CI](https://github.com/InSaneIISSGod/TaskManager-DevOps/actions/workflows/ci.yml/badge.svg)
 
-- **Aplicación publicada:** https://taskmanager-devops.onrender.com *(actualizar con la URL real)*
-- **Tablero:** GitHub Projects → *TaskManager DevOps*
+- **Aplicación publicada:** https://taskmanager-devops-c3h2.onrender.com
+- **Tablero:** GitHub Projects → *TaskManager DevOps* (público)
+- **Versión estable:** [v1.0.0](https://github.com/InSaneIISSGod/TaskManager-DevOps/releases/tag/v1.0.0)
 
 ## Funcionalidades
 
