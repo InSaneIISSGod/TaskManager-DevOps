@@ -61,6 +61,12 @@ def test_cp01_registrar_tarea(client):
     assert datos["tarea"]["id"] > 0
 
 
+def test_cp01_registrar_tarea_sin_descripcion(client):
+    """Regresion del Issue 'Error al guardar tareas sin descripcion'."""
+    resp = client.post("/api/tareas", json={"nombre": "Sin descripcion"})
+    assert resp.status_code == 201
+    assert resp.get_json()["tarea"]["descripcion"] == ""
+
 
 # ----------------------------------------- CP02 Registrar tarea sin nombre
 def test_cp02_registrar_sin_nombre(client):
